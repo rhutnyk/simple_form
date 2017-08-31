@@ -1,0 +1,21 @@
+﻿<div class="question1 radio" ng-class="{negative: $ctrl.question.value === 'No'}">
+    <div class="col-sm-6 ">
+        <h4 class="questionText">{{$ctrl.question.text}}</h4>
+    </div>
+    <div class="col-sm-6 form-group" ng-init="$ctrl.registerListener($ctrl.question.dependency, $ctrl.question)">
+        <div class="btn-group check" > <!--data-toggle="buttons"-->
+            <label ng-repeat="option in $ctrl.question.options" class="btn btn-primary" ng-class="{active: option.text === $ctrl.question.value}">
+                <input type="radio" ng-model="$ctrl.question.value" ng-value="option.text" style="display: none;"
+                       ng-change="$ctrl.onchange($ctrl.question.notify.event, $ctrl.question.value, $ctrl.question.notify.parameter)" /> 
+                    {{option.text}} <span style="font-style: italic; font-size: 8px">{{option.hint}}</span>
+            </label>
+        </div>
+    </div>
+
+    <div>
+        <question-view ng-show="$ctrl.question.childQuestions && $ctrl.question.childQuestions.dependency == $ctrl.question.value" ng-repeat="q in $ctrl.question.childQuestions.questions" question='q'>
+        </question-view>
+    </div>
+
+    <div style="clear: both;"></div>
+</div>

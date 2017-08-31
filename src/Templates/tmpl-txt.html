@@ -1,0 +1,11 @@
+﻿<div class="question1">
+    <div ng-if="$ctrl.question.text"  class="col-sm-3">
+        <h4 class="questionText">{{$ctrl.question.text}} <span class="hint">{{::$ctrl.question.hint}}</span></h4>        
+    </div>
+    <div class="col-sm-9 form-group margin-top-12">
+        <input type="{{$ctrl.question.inputType || 'text'}}" class="form-control" ng-blur="$ctrl.onchange($ctrl.question.notify.event, $ctrl.question.value, $ctrl.question.notify.parameter)" 
+               ng-model="$ctrl.question.value" ng-init="$ctrl.registerListener($ctrl.question.dependency, $ctrl.question)"  
+               ng-required="$ctrl.question.validation && $ctrl.question.validation.required">
+    </div>    
+    <div style="clear: both;"></div>
+</div>

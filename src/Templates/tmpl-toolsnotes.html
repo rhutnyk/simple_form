@@ -1,0 +1,44 @@
+﻿<!--project specific template-->
+<div style="overflow-x:auto">
+    <table class="table" ng-init="$ctrl.registerListener($ctrl.table.dependency, $ctrl.table)">
+        <thead>
+            <tr>
+                <th>Tool</th>
+                <th>Notes on damage or missing parts</th>   
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in $ctrl.table.data">
+                <td>
+                    <select class="form-control" ng-model="item.name" >
+                        <option value="null">select...</option>
+                        <option ng-repeat="selectOption in $ctrl.table.parts">
+                            {{selectOption['ItemNumber']}}
+                        </option>
+                    </select>
+                </td>
+                <td>
+                    <textarea class="form-control" ng-model="item.notes" ></textarea>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <select class="form-control" ng-model="newItem.name" ng-init="newItem.name = 'null'">
+                        <option value="null">select...</option>
+                        <option ng-repeat="selectOption in $ctrl.table.parts">
+                            {{selectOption['ItemNumber']}}
+                        </option>
+                    </select>
+                </td>
+                <td>
+                    <textarea class="form-control" ng-model="newItem.notes"></textarea>
+                </td>
+                <td>
+                    <a ng-click="$ctrl.add(newItem); newItem={name:'null'};" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-disk"></i> add</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

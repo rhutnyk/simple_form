@@ -1,0 +1,42 @@
+﻿<!--project specific template-->
+<div style="overflow-x:auto">
+    <table class="table" ng-init="$ctrl.registerListener($ctrl.table.dependency, $ctrl.table)">
+        <thead>
+            <tr>
+                <th>
+                    <a href="" ng-click="$ctrl.orderBy = 'BinNumber'; $ctrl.sortDirection = !$ctrl.sortDirection;">
+                        Bin #
+                        <i class="glyphicon {{$ctrl.sortDirection ? 'glyphicon-chevron-down' : 'glyphicon-chevron-up'}}"></i>
+                    </a>
+                </th>
+                <th>Item #</th>
+                <th>Item Description</th>
+                <th>On Hand</th>
+                <th>On Order (usage recorder)</th>
+                <th>On Order (active PO)</th>
+                <th>Min</th>
+                <th>Max</th>
+                <th>Audit Qty</th>
+                <th>Qty Difference</th>
+                <th>$ Difference</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in $ctrl.table.data | orderBy:$ctrl.orderBy:$ctrl.sortDirection">
+                <td>{{item.BinNo}}</td>
+                <td>{{item.ItemNumber}}</td>
+                <td>{{item.Description}}</td>
+                <td>{{item.OnhandQty}}</td>
+                <td>{{item.NotOrdered}}</td>
+                <td>{{item.OrderedNotReceived}}</td>
+                <td>{{item.MinimumQty}}</td>
+                <td>{{item.MaximumQty}}</td>
+                <td>
+                    <input type="number" ng-model="item.AuditQty" ng-init="item.AuditQty = item.AuditQty || 0" ng-change="$ctrl.onchange($ctrl.table.notify.event, $ctrl.table.notify.parameter)" />
+                </td>
+                <td>{{item.AuditQty - item.OnhandQty}}</td>
+                <td>{{((item.AuditQty - item.OnhandQty) * item.Cost) | currency}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

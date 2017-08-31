@@ -1,0 +1,22 @@
+﻿<div class="question1 select">
+    <div ng-if="$ctrl.question.text" class="col-sm-3">
+        <h4 class="questionText">{{$ctrl.question.text}} <span class="hint">{{::$ctrl.question.hint}}</span></h4>
+    </div>
+    <div class="col-sm-9 form-group margin-top-12" ng-init="$ctrl.registerListener($ctrl.question.dependency, $ctrl.question)">
+        <span ng-show="$ctrl.loading" class="load-indicator glyphicon glyphicon-refresh" aria-hidden="true"></span>
+        <select class="form-control" ng-model="$ctrl.question.value" ng-required="$ctrl.question.validation && $ctrl.question.validation.required"
+                ng-init="$ctrl.question.value = $ctrl.question.value || 'null'; $ctrl.getResource($ctrl.question.resource.name)"
+                ng-change="$ctrl.onchange($ctrl.question.notify.event, $ctrl.question.value, $ctrl.question.notify.parameter)">
+            <option value="null">select...</option>
+            <option ng-if="$ctrl.question.resource" 
+                    ng-repeat="selectOption in $ctrl.resources[$ctrl.question.resource.name]" 
+                    value="{{selectOption[$ctrl.question.resource.dataValue]}}">
+            {{selectOption[$ctrl.question.resource.dataText]}}
+            </option>
+            <option ng-if="!$ctrl.question.resource && $ctrl.question.options" 
+                    ng-repeat="selectOption in $ctrl.question.options" 
+                    value="{{selectOption}}">{{selectOption}}</option>
+        </select>
+    </div>
+    <div style="clear: both;"></div>
+</div>

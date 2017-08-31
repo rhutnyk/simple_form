@@ -1,0 +1,40 @@
+﻿<div style="overflow-x:auto">
+    <table class="table" ng-init="$ctrl.registerListener($ctrl.table.dependency, $ctrl.table)">
+        <tr>
+            <th>
+                Audited
+            </th>
+            <th>
+                Items Count
+            </th>
+            <th>
+                Qty Audited
+            </th>
+            <th>
+                Qty on Hand
+            </th>
+            <th>
+                Qty Diff
+            </th>
+            <th>
+                Value Audited
+            </th>
+            <th>
+                Value on Hand
+            </th>
+            <th>
+                Value Diff
+            </th>
+        </tr>
+        <tr ng-repeat="item in $ctrl.table.data">
+            <td>{{item.type}}</td>
+            <td>{{item.qty}}</td>
+            <td>{{item.auditedQty}}</td>
+            <td>{{item.onHandQty}}</td>
+            <td>{{item.qtyDiff}}</td>
+            <td>{{item.auditedVal | currency}}</td>
+            <td>{{item.onHandVal | currency}}</td>
+            <td>{{item.valDiff | currency}}</td>
+        </tr>
+    </table>
+</div>

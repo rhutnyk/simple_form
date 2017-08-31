@@ -1,0 +1,15 @@
+﻿<div class="question1 radio">
+    <div class="col-sm-12 ">
+        <h4 class="questionText">{{$ctrl.question.text}}</h4>
+    </div>
+    <div class="col-sm-12 form-group " ng-init="$ctrl.registerListener($ctrl.question.dependency, $ctrl.question)">
+        <div class="btn-group check">
+            <label ng-repeat="option in $ctrl.question.options" class="btn btn-primary" ng-class="{active: option.value === true}">
+                <input type="checkbox" ng-model="option.value" style="display: none;" ng-change="$ctrl.onchange(option.notify.event, option.value, option.notify.parameter)" /> 
+                {{option.text}} <span style="font-style: italic; font-size: 8px">{{option.hint}}</span>
+            </label>
+        </div>
+    </div>
+
+    <div style="clear: both;"></div>
+</div>

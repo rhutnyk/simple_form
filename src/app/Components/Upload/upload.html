@@ -1,0 +1,26 @@
+﻿<div ng-if="$ctrl.question.text" class="col-sm-3">
+    <h4 class="questionText">{{$ctrl.question.text}} <span class="hint">{{::$ctrl.question.hint}}</span></h4>
+</div>
+<div class="col-sm-6 form-group margin-top-12">
+    <input type="file" accept=".jpg,.jpeg,.png" multiple class="form-control" ng-init="$ctrl.registerListener($ctrl.question.dependency, $ctrl.question)"
+           onchange="angular.element(this).scope().uploadFileChange(this.files)" />
+    <span ng-show="$ctrl.selected" class="text-danger">Make sure to save selected assets</span>
+</div>
+<div class="col-sm-3 margin-top-12 text-right">
+    <button type="submit" class="btn btn-primary btn-blue" ng-click="$ctrl.upload()"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Save assets</button>
+</div>
+<div class="clearfix"></div>
+<div class="assets">
+    <div class="col-sm-3" ng-if="$ctrl.question.assets" ng-repeat="asset in $ctrl.question.assets">
+        <img ng-src="{{asset.Uri}}" style="width:100%;"/>
+        <div class="img-ctrl">
+            <a target="_blank" href="{{asset.Uri}}"><span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span> preview</a>&nbsp;
+            <confirm on-confirm="$ctrl.delete(asset)" icon-class="glyphicon-remove" title="delete"
+                     msg="Are your sure to remove the asset?" text="delete"></confirm>&nbsp;
+        </div>
+    </div>
+</div>
+<div style="clear: both;"></div>
+
+<div class="processing" ng-show="$ctrl.loading">Working...</div>
+<div class="mask" ng-show="$ctrl.loading"></div>

@@ -1,0 +1,10 @@
+﻿<div class="question1">
+    <div ng-if="$ctrl.question.text" class="col-sm-3">
+        <h4 class="questionText">{{$ctrl.question.text}} <span class="hint">{{::$ctrl.question.hint}}</span></h4>
+    </div>
+    <div class="col-sm-9 form-group margin-top-12">
+        <textarea class="form-control" ng-change="$ctrl.onchange($ctrl.question.notify.event, $ctrl.question.value, $ctrl.question.notify.parameter)"
+               ng-model="$ctrl.question.value" ng-init="$ctrl.registerListener($ctrl.question.dependency, $ctrl.question)"></textarea>
+    </div>
+    <div style="clear: both;"></div>
+</div>

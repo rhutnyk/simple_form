@@ -1,0 +1,17 @@
+﻿<ul class="nav navbar-nav">
+    <li class="">
+        <a ui-sref="audit.list">Browse Audits</a>
+    </li>
+    <li>
+        <a ui-sref="schedule.list">Schedule</a>
+    </li>
+    <li>
+        <a ui-sref="reports">Reports</a>
+    </li>
+    <li>
+        <a ui-sref="template.list">Templates</a>
+    </li>
+    <li>
+        <a ui-sref="audit.list({filter:'{{$ctrl.user}}'})"><queue-indicator></queue-indicator></a>
+    </li>
+</ul>

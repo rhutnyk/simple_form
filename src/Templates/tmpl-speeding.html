@@ -1,0 +1,17 @@
+﻿<!--project specific template-->
+<div style="overflow-x:auto">
+    <table class="table" ng-init="$ctrl.registerListener($ctrl.table.dependency, $ctrl.table)">
+        <!--<thead>
+            <tr>
+                <th>Qty Difference</th>
+                <th>$ Difference</th>
+            </tr>
+        </thead>-->
+        <tbody>
+            <tr ng-repeat="item in $ctrl.table.data | orderBy:'RangeName':'desc'">
+                <td>{{item.RangeName}}</td>
+                <td>{{item.Percentage}}%</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

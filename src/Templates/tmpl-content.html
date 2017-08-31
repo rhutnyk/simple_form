@@ -1,0 +1,7 @@
+﻿<div ng-init="$ctrl.registerListener($ctrl.question.dependency, $ctrl.question)">
+    <h3>{{$ctrl.question.title}}</h3>
+    <p ng-if="$ctrl.question.text">
+        {{$ctrl.question.text}}
+    </p>
+    <div ng-if="$ctrl.question.page" ng-include="$ctrl.question.page"></div>
+</div>

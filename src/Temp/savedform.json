@@ -1,0 +1,1616 @@
+﻿{
+  "Assets": [],
+  "FormJson": [
+    {
+      "id": "auditInfo",
+      "blockTitle": "Audit Information",
+      "questions": [
+        {
+          "text": "Place where audit occured?",
+          "type": "radio",
+          "options": [
+            { "text": "Office" },
+            { "text": "JobSite" }
+          ],
+          "value": "JobSite"
+        },
+        {
+          "type": "radio",
+          "text": "Audit type",
+          "options": [
+            { "text": "Random" },
+            { "text": "New Truck" },
+            { "text": "Termination" }
+          ],
+          "value": "Random"
+        },
+        {
+          "type": "select",
+          "text": "Who is performing the audit?",
+          "resource": {
+            "name": "auditor",
+            "dataText": "Name",
+            "dataValue": "EmplCode"
+          },
+          "default": { "storage": "auditor" },
+          "validation": { "required": true },
+          "value": "HARSTA"
+        },
+        {
+          "text": "Technician Present?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ],
+          "childQuestions": {
+            "dependency": "Yes",
+            "questions": [
+              {
+                "type": "select",
+                "text": "Technician's name",
+                "resource": {
+                  "name": "tech",
+                  "dataText": "Name",
+                  "dataValue": "EmplCode"
+                },
+                "notify": {
+                  "event": "techchange",
+                  "parameter": "tech"
+                },
+                "dependency": {
+                  "data": {
+                    "event": "truckchange",
+                    "resource": "Employees",
+                    "datafield": "EmplCode"
+                  }
+                },
+                "value": "DINANT"
+              }
+            ]
+          },
+          "notify": { "event": "techpresentchange" },
+          "value": "Yes"
+        },
+        {
+          "type": "txt",
+          "text": "Truck #",
+          "default": { "storage": "subject" },
+          "notify": {
+            "event": "truckchange",
+            "parameter": "VehicleNumber"
+          },
+          "validation": { "required": true },
+          "value": "1243"
+        }
+      ],
+      "workflow": {
+        "status": "InProgress",
+        "role": "auditor"
+      },
+      "state": {
+        "visible": true,
+        "enabled": true
+      }
+    },
+    {
+      "id": "brandImage",
+      "blockTitle": "Brand Image",
+      "questions": [
+        {
+          "text": "Does the technician have a valid driver’s license on them?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ],
+          "notify": { "event": "driverlicensechange" },
+          "dependency": {
+            "visibility": {
+              "event": "techpresentchange",
+              "value": "Yes"
+            }
+          },
+          "invisible": false
+        },
+        {
+          "title": "Does the technician present a professional image to the customer?",
+          "type": "content",
+          "invisible": false,
+          "dependency": {
+            "visibility": {
+              "event": "techpresentchange",
+              "value": "Yes"
+            }
+          }
+        },
+        {
+          "text": "Technician groomed to company standards?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ],
+          "notify": { "event": "techgroomedchange" },
+          "invisible": false,
+          "dependency": {
+            "visibility": {
+              "event": "techpresentchange",
+              "value": "Yes"
+            }
+          },
+          "childQuestions": {
+            "dependency": "No",
+            "questions": [
+              {
+                "text": "Does the tech's uniform fit properly?",
+                "type": "radio",
+                "options": [
+                  { "text": "Yes" },
+                  { "text": "No" }
+                ],
+                "childQuestions": {
+                  "dependency": "No",
+                  "questions": [
+                    {
+                      "text": "The uniform shirt is too?",
+                      "type": "radio",
+                      "options": [
+                        { "text": "small" },
+                        { "text": "large" }
+                      ]
+                    },
+                    {
+                      "text": "The pants are too?",
+                      "type": "radio",
+                      "options": [
+                        { "text": "small" },
+                        { "text": "large" }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "text": "Wearing black boots?",
+                "type": "radio",
+                "options": [
+                  { "text": "Yes" },
+                  { "text": "No" }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "text": "Wearing a black belt?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ],
+          "invisible": false,
+          "dependency": {
+            "visibility": {
+              "event": "techpresentchange",
+              "value": "Yes"
+            }
+          }
+        },
+        {
+          "text": "The uniform is clean and neat in appearance?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ],
+          "invisible": false,
+          "dependency": {
+            "visibility": {
+              "event": "techpresentchange",
+              "value": "Yes"
+            }
+          }
+        },
+        {
+          "text": "The correct name label on the technician’s shirt?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ],
+          "invisible": false,
+          "dependency": {
+            "visibility": {
+              "event": "techpresentchange",
+              "value": "Yes"
+            }
+          }
+        },
+        {
+          "text": "All shirt patches are in good shape?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ],
+          "invisible": false,
+          "dependency": {
+            "visibility": {
+              "event": "techpresentchange",
+              "value": "Yes"
+            }
+          }
+        }
+      ],
+      "workflow": {
+        "status": "InProgress",
+        "role": "auditor"
+      },
+      "state": {
+        "visible": true,
+        "enabled": true
+      }
+    },
+    {
+      "id": "companyDevices",
+      "blockTitle": "Company Devices",
+      "blockHint": "Does the technician have the correct tools to finish the call?",
+      "questions": [
+        {
+          "text": "Company issued cell phone present?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ],
+          "notify": { "event": "cellphonechange" },
+          "childQuestions": {
+            "dependency": "Yes",
+            "questions": [
+              {
+                "text": "Cell phone operational?",
+                "type": "radio",
+                "options": [
+                  { "text": "Yes" },
+                  { "text": "No" }
+                ]
+              },
+              {
+                "text": "The cell phone screen hs no damage?",
+                "type": "radio",
+                "options": [
+                  { "text": "Yes" },
+                  { "text": "No" }
+                ]
+              },
+              {
+                "text": "Cell phone asset id #",
+                "type": "txt",
+                "dependency": {
+                  "data": {
+                    "event": "techchange",
+                    "resource": "Employees/Assets",
+                    "datafield": "PhoneId"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "text": "Company issued tablet present?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ],
+          "notify": { "event": "tabletchange" },
+          "childQuestions": {
+            "dependency": "Yes",
+            "questions": [
+              {
+                "text": "Tablet operational?",
+                "type": "radio",
+                "options": [
+                  { "text": "Yes" },
+                  { "text": "No" }
+                ]
+              },
+              {
+                "text": "The tablet screen has no damage?",
+                "type": "radio",
+                "options": [
+                  { "text": "Yes" },
+                  { "text": "No" }
+                ]
+              },
+              {
+                "text": "Tablet asset id #",
+                "type": "txt",
+                "dependency": {
+                  "data": {
+                    "event": "techchange",
+                    "resource": "Employees/Assets",
+                    "datafield": "TabletId"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "workflow": {
+        "status": "InProgress",
+        "role": "auditor"
+      },
+      "state": {
+        "visible": true,
+        "enabled": true
+      }
+    },
+    {
+      "id": "vehicle",
+      "blockTitle": "Vehicle Information",
+      "questions": [
+        {
+          "type": "txt",
+          "text": "Truck #",
+          "dependency": {
+            "data": {
+              "event": "truckchange",
+              "resource": "Vehicles",
+              "datafield": "VehicleNumber"
+            }
+          },
+          "value": "1243"
+        },
+        {
+          "type": "txt",
+          "text": "Department #",
+          "dependency": {
+            "data": {
+              "event": "truckchange",
+              "resource": "Vehicles",
+              "datafield": "Department"
+            }
+          },
+          "value": "65"
+        },
+        {
+          "type": "txt",
+          "text": "Make / Model",
+          "dependency": {
+            "data": {
+              "event": "truckchange",
+              "resource": "Vehicles",
+              "datafield": "MakeModel"
+            }
+          },
+          "value": "fordE350"
+        },
+        {
+          "type": "txt",
+          "text": "VIN #",
+          "dependency": {
+            "data": {
+              "event": "truckchange",
+              "resource": "Vehicles",
+              "datafield": "Vin"
+            }
+          },
+          "value": "1FDWE3FL3EDA23413"
+        },
+        {
+          "type": "txt",
+          "text": "Mileage",
+          "inputType": "Number"
+        },
+        {
+          "type": "txt",
+          "text": "Plate #",
+          "dependency": {
+            "data": {
+              "event": "truckchange",
+              "resource": "Vehicles",
+              "datafield": "Plate"
+            }
+          },
+          "value": "H213856"
+        },
+        {
+          "type": "txt",
+          "text": "Tag due date",
+          "inputType": "Date",
+          "dependency": {
+            "data": {
+              "event": "truckchange",
+              "resource": "Vehicles",
+              "datafield": "Tag"
+            }
+          }
+        },
+        {
+          "text": "Vehicle oil level",
+          "type": "radio",
+          "options": [
+            { "text": "Low" },
+            { "text": "Normal" },
+            { "text": "High" }
+          ]
+        },
+        {
+          "text": "Is vehicle within recommended oil change interval?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ]
+        },
+        {
+          "text": "Is the vehicle tire wear acceptable?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ]
+        },
+        {
+          "text": "Vehcile registration is present?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ]
+        },
+        {
+          "text": "Proof of insurance is present?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ]
+        },
+        {
+          "text": "Is the ARI fuel card is present?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ]
+        },
+        {
+          "text": "Is the ARI maintenance packet is present?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ]
+        },
+        {
+          "title": "Is the vehicle presenting a professional image?",
+          "type": "content"
+        },
+        {
+          "text": "Has the vehicle been washed recently?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ]
+        },
+        {
+          "text": "There is no damage to the interior/exterior of vehicle?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ],
+          "childQuestions": {
+            "dependency": "No",
+            "questions": [
+              {
+                "text": "Notes on vehicle damage",
+                "type": "long-txt"
+              },
+              {
+                "text": "Picture of damage",
+                "type": "upload"
+              }
+            ]
+          }
+        },
+        {
+          "text": "The vehicle wrap is in good condition?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ]
+        }
+      ],
+      "workflow": {
+        "status": "InProgress",
+        "role": "auditor"
+      },
+      "state": {
+        "visible": true,
+        "enabled": true
+      }
+    },
+    {
+      "id": "insideCab",
+      "blockTitle": "Inside the Cab",
+      "blockHint": "Is the technician keeping the cab of the vehicle neat and organized to present a professional image?",
+      "questions": [
+        {
+          "text": "Is the cab clean and organized?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ],
+          "childQuestions": {
+            "dependency": "No",
+            "questions": [
+              {
+                "text": "Notes on cab cleanleness",
+                "type": "long-txt"
+              },
+              {
+                "text": "Picture",
+                "type": "upload"
+              }
+            ]
+          }
+        },
+        {
+          "text": "There is no evidence of tobacco usage?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ],
+          "notify": { "event": "tobaccochange" },
+          "childQuestions": {
+            "dependency": "No",
+            "questions": [
+              {
+                "text": "Notes",
+                "type": "long-txt"
+              }
+            ]
+          }
+        },
+        {
+          "text": "A speed/radar detector is not installed?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ],
+          "notify": { "event": "radarchange" }
+        },
+        {
+          "text": "Does the tech have a spare clean uniform on board?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ]
+        },
+        {
+          "text": "All needed company forms are available and neatly organized?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ]
+        },
+        {
+          "text": "Completed envelop(s) turned in timely?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ]
+        },
+        {
+          "text": "Trashcan is present and being used?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ]
+        },
+        {
+          "text": "Breath mints are present?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ]
+        }
+      ],
+      "workflow": {
+        "status": "InProgress",
+        "role": "auditor"
+      },
+      "state": {
+        "visible": true,
+        "enabled": true
+      }
+    },
+    {
+      "id": "safety",
+      "blockTitle": "Safety Equipment",
+      "blockHint": "Is the proper safety equipment on board?",
+      "questions": [
+        {
+          "text": "Traffic safety cones",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ]
+        },
+        {
+          "text": "Lock out tag out kit",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" },
+            { "text": "N/A" }
+          ]
+        },
+        {
+          "text": "Gloves",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ]
+        },
+        {
+          "text": "Safety goggles",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ]
+        },
+        {
+          "text": "First aid kit",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ]
+        }
+      ],
+      "workflow": {
+        "status": "InProgress",
+        "role": "auditor"
+      },
+      "state": {
+        "visible": true,
+        "enabled": true
+      }
+    },
+    {
+      "id": "cargo",
+      "blockTitle": "Cargo Area",
+      "blockHint": "Is the cargo area of the vehicle presenting a professional image?",
+      "questions": [
+        {
+          "text": "Is the vehicle fire extinguisher on board?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ],
+          "childQuestions": {
+            "dependency": "Yes",
+            "questions": [
+              {
+                "text": "Fire extinguisher last inspected on?",
+                "type": "date",
+                "inputType": "Date"
+              }
+            ]
+          }
+        },
+        {
+          "text": "Is the cargo area clean and neatly organized?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ],
+          "childQuestions": {
+            "dependency": "No",
+            "questions": [
+              {
+                "text": "Notes",
+                "type": "long-txt"
+              },
+              {
+                "text": "Picture",
+                "type": "upload"
+              }
+            ]
+          }
+        },
+        {
+          "text": "Trashcan is present and used?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ]
+        },
+        {
+          "text": "Are shoe covers present?",
+          "type": "radio",
+          "options": [
+            { "text": "Yes" },
+            { "text": "No" }
+          ]
+        }
+      ],
+      "workflow": {
+        "status": "InProgress",
+        "role": "auditor"
+      },
+      "state": {
+        "visible": true,
+        "enabled": true
+      }
+    },
+    {
+      "id": "tools",
+      "blockTitle": "Tools Audit",
+      "tables": [
+        {
+          "type": "tools-audit",
+          "notify": {
+            "event": "toolschange",
+            "parameter": "Tools"
+          },
+          "dependency": [
+            {
+              "list": {
+                "event": "truckchange",
+                "resource": "Tools",
+                "datafield_": "tools"
+              }
+            }
+          ],
+          "data": [
+            {
+              "BinNo": "",
+              "ItemNumber": "L10606",
+              "Description": "CAULKING GUN",
+              "Cost": 4.3,
+              "MinimumQty": 0,
+              "MaximumQty": 0,
+              "OnhandQty": 1,
+              "NotOrdered": null,
+              "OrderedNotReceived": null,
+              "Category": "Tools",
+              "AuditQty": 0
+            },
+            {
+              "BinNo": "t004",
+              "ItemNumber": "T004",
+              "Description": "6ft ladder",
+              "Cost": 0,
+              "MinimumQty": 1,
+              "MaximumQty": 1,
+              "OnhandQty": 1,
+              "NotOrdered": null,
+              "OrderedNotReceived": null,
+              "Category": "Tools",
+              "AuditQty": 0
+            },
+            {
+              "BinNo": "t005",
+              "ItemNumber": "T005",
+              "Description": "24' ladder",
+              "Cost": 0,
+              "MinimumQty": 1,
+              "MaximumQty": 1,
+              "OnhandQty": 1,
+              "NotOrdered": null,
+              "OrderedNotReceived": null,
+              "Category": "Tools",
+              "AuditQty": 0
+            },
+            {
+              "BinNo": "t001",
+              "ItemNumber": "CA300",
+              "Description": "ridgid inspection camera",
+              "Cost": 239.43,
+              "MinimumQty": 1,
+              "MaximumQty": 1,
+              "OnhandQty": 1,
+              "NotOrdered": null,
+              "OrderedNotReceived": null,
+              "Category": "Tools",
+              "AuditQty": 0
+            },
+            {
+              "BinNo": "",
+              "ItemNumber": "REFILLNITROGENS",
+              "Description": "refill reg nitrogen",
+              "Cost": 0,
+              "MinimumQty": 0,
+              "MaximumQty": 0,
+              "OnhandQty": 2,
+              "NotOrdered": null,
+              "OrderedNotReceived": null,
+              "Category": "Tools",
+              "AuditQty": 0
+            }
+          ]
+        },
+        {
+          "type": "tools-notes",
+          "dependency": [
+            {
+              "list": {
+                "event": "truckchange",
+                "resource": "Tools",
+                "target": "parts"
+              }
+            }
+          ],
+          "data": [],
+          "parts": [
+            {
+              "BinNo": "",
+              "ItemNumber": "L10606",
+              "Description": "CAULKING GUN",
+              "Cost": 4.3,
+              "MinimumQty": 0,
+              "MaximumQty": 0,
+              "OnhandQty": 1,
+              "NotOrdered": null,
+              "OrderedNotReceived": null,
+              "Category": "Tools",
+              "AuditQty": 0
+            },
+            {
+              "BinNo": "t004",
+              "ItemNumber": "T004",
+              "Description": "6ft ladder",
+              "Cost": 0,
+              "MinimumQty": 1,
+              "MaximumQty": 1,
+              "OnhandQty": 1,
+              "NotOrdered": null,
+              "OrderedNotReceived": null,
+              "Category": "Tools",
+              "AuditQty": 0
+            },
+            {
+              "BinNo": "t005",
+              "ItemNumber": "T005",
+              "Description": "24' ladder",
+              "Cost": 0,
+              "MinimumQty": 1,
+              "MaximumQty": 1,
+              "OnhandQty": 1,
+              "NotOrdered": null,
+              "OrderedNotReceived": null,
+              "Category": "Tools",
+              "AuditQty": 0
+            },
+            {
+              "BinNo": "t001",
+              "ItemNumber": "CA300",
+              "Description": "ridgid inspection camera",
+              "Cost": 239.43,
+              "MinimumQty": 1,
+              "MaximumQty": 1,
+              "OnhandQty": 1,
+              "NotOrdered": null,
+              "OrderedNotReceived": null,
+              "Category": "Tools",
+              "AuditQty": 0
+            },
+            {
+              "BinNo": "",
+              "ItemNumber": "REFILLNITROGENS",
+              "Description": "refill reg nitrogen",
+              "Cost": 0,
+              "MinimumQty": 0,
+              "MaximumQty": 0,
+              "OnhandQty": 2,
+              "NotOrdered": null,
+              "OrderedNotReceived": null,
+              "Category": "Tools",
+              "AuditQty": 0
+            }
+          ]
+        }
+      ],
+      "workflow": {
+        "status": "InProgress",
+        "role": "auditor"
+      },
+      "state": {
+        "visible": true,
+        "enabled": true
+      }
+    },
+    {
+      "id": "inventory",
+      "blockTitle": "Inventory Audit",
+      "questions": [
+        {
+          "text": "Audit type",
+          "type": "radio",
+          "options": [
+            { "text": "Total" },
+            { "text": "A" },
+            { "text": "B" },
+            { "text": "C" }
+          ],
+          "value": "Total",
+          "notify": {
+            "event": "audittypechange",
+            "parameter": "category"
+          }
+        }
+      ],
+      "tables": [
+        {
+          "type": "tools-audit",
+          "notify": {
+            "event": "inventorychange",
+            "parameter": "Inventory"
+          },
+          "dependency": [
+            {
+              "list": {
+                "event": "truckchange",
+                "resource": "Inventory"
+              }
+            },
+            {
+              "list": {
+                "event": "audittypechange",
+                "resource": "Inventory"
+              }
+            }
+          ],
+          "data": [
+            {
+              "BinNo": null,
+              "ItemNumber": "CS1",
+              "Description": "1 to 3 ton compressor saver",
+              "Cost": 25.25,
+              "MinimumQty": 1,
+              "MaximumQty": 1,
+              "OnhandQty": 0,
+              "NotOrdered": null,
+              "OrderedNotReceived": 1,
+              "Category": "C",
+              "AuditQty": 0
+            },
+            {
+              "BinNo": null,
+              "ItemNumber": "CS1",
+              "Description": "1 to 3 ton compressor saver",
+              "Cost": 25.25,
+              "MinimumQty": 1,
+              "MaximumQty": 1,
+              "OnhandQty": 0,
+              "NotOrdered": null,
+              "OrderedNotReceived": 1,
+              "Category": "C",
+              "AuditQty": 0
+            },
+            {
+              "BinNo": null,
+              "ItemNumber": "CS2",
+              "Description": "3.5 to 5 ton compressor save",
+              "Cost": 31.95,
+              "MinimumQty": 1,
+              "MaximumQty": 1,
+              "OnhandQty": 0,
+              "NotOrdered": null,
+              "OrderedNotReceived": 1,
+              "Category": "C",
+              "AuditQty": 0
+            },
+            {
+              "BinNo": null,
+              "ItemNumber": "CS2",
+              "Description": "3.5 to 5 ton compressor save",
+              "Cost": 31.95,
+              "MinimumQty": 1,
+              "MaximumQty": 1,
+              "OnhandQty": 0,
+              "NotOrdered": null,
+              "OrderedNotReceived": 1,
+              "Category": "C",
+              "AuditQty": 0
+            },
+            {
+              "BinNo": "",
+              "ItemNumber": "L10508",
+              "Description": "8x1 zip 500",
+              "Cost": 14.8996,
+              "MinimumQty": 0,
+              "MaximumQty": 0,
+              "OnhandQty": 1,
+              "NotOrdered": null,
+              "OrderedNotReceived": null,
+              "Category": "A",
+              "AuditQty": 0
+            }
+          ]
+        },
+        {
+          "type": "tools-notes",
+          "dependency": [
+            {
+              "list": {
+                "event": "truckchange",
+                "resource": "Inventory",
+                "target": "parts"
+              }
+            },
+            {
+              "list": {
+                "event": "audittypechange",
+                "resource": "Inventory",
+                "target": "parts"
+              }
+            }
+          ],
+          "data": [],
+          "parts": [
+            {
+              "BinNo": null,
+              "ItemNumber": "CS1",
+              "Description": "1 to 3 ton compressor saver",
+              "Cost": 25.25,
+              "MinimumQty": 1,
+              "MaximumQty": 1,
+              "OnhandQty": 0,
+              "NotOrdered": null,
+              "OrderedNotReceived": 1,
+              "Category": "C",
+              "AuditQty": 0
+            },
+            {
+              "BinNo": null,
+              "ItemNumber": "CS1",
+              "Description": "1 to 3 ton compressor saver",
+              "Cost": 25.25,
+              "MinimumQty": 1,
+              "MaximumQty": 1,
+              "OnhandQty": 0,
+              "NotOrdered": null,
+              "OrderedNotReceived": 1,
+              "Category": "C",
+              "AuditQty": 0
+            },
+            {
+              "BinNo": null,
+              "ItemNumber": "CS2",
+              "Description": "3.5 to 5 ton compressor save",
+              "Cost": 31.95,
+              "MinimumQty": 1,
+              "MaximumQty": 1,
+              "OnhandQty": 0,
+              "NotOrdered": null,
+              "OrderedNotReceived": 1,
+              "Category": "C",
+              "AuditQty": 0
+            },
+            {
+              "BinNo": null,
+              "ItemNumber": "CS2",
+              "Description": "3.5 to 5 ton compressor save",
+              "Cost": 31.95,
+              "MinimumQty": 1,
+              "MaximumQty": 1,
+              "OnhandQty": 0,
+              "NotOrdered": null,
+              "OrderedNotReceived": 1,
+              "Category": "C",
+              "AuditQty": 0
+            },
+            {
+              "BinNo": "",
+              "ItemNumber": "L10508",
+              "Description": "8x1 zip 500",
+              "Cost": 14.8996,
+              "MinimumQty": 0,
+              "MaximumQty": 0,
+              "OnhandQty": 1,
+              "NotOrdered": null,
+              "OrderedNotReceived": null,
+              "Category": "A",
+              "AuditQty": 0
+            }
+          ]
+        }
+      ],
+      "workflow": {
+        "status": "InProgress",
+        "role": "auditor"
+      },
+      "state": {
+        "visible": true,
+        "enabled": true
+      }
+    },
+    {
+      "id": "outcome",
+      "blockTitle": "Audit Outcome",
+      "tables": [
+        {
+          "type": "outcome",
+          "dependency": [
+            { "tableSum": { "event": "toolschange" } },
+            { "tableSum": { "event": "inventorychange" } }
+          ],
+          "data": []
+        }
+      ],
+      "workflow": {
+        "status": "InProgress",
+        "role": "auditor"
+      },
+      "state": {
+        "visible": true,
+        "enabled": true
+      }
+    },
+    {
+      "id": "truckUsage",
+      "blockTitle": "Technician Truck Usage",
+      "questions": [],
+      "workflow": {
+        "status": "InProgress",
+        "role": "auditor"
+      },
+      "state": {
+        "visible": true,
+        "enabled": true
+      }
+    },
+    {
+      "id": "fleetInfo",
+      "blockTitle": "Fleet Information",
+      "questions": [
+        {
+          "type": "txt",
+          "text": "Quantity of times over the speed limit in the last 3 months? ",
+          "inputType": "Number",
+          "notify": { "event": "speedingchange" },
+          "dependency": {
+            "data_violations": {
+              "event": "truckchange",
+              "resource": "Vehicles/SpeedStats",
+              "datafield": "ViolationCount"
+            }
+          },
+          "value": 0
+        }
+      ],
+      "tables": [
+        {
+          "type": "speeding",
+          "notify": {
+            "event": "inventorychange",
+            "parameter": "Inventory"
+          },
+          "dependency": [
+            {
+              "list": {
+                "event": "truckchange",
+                "resource": "Vehicles/SpeedStats",
+                "datafield": "Bins"
+              }
+            }
+          ],
+          "data": [
+            {
+              "RangeName": "Idling",
+              "Percentage": 26.486
+            },
+            {
+              "RangeName": "0-10",
+              "Percentage": 8.701
+            },
+            {
+              "RangeName": "11-20",
+              "Percentage": 7.78
+            },
+            {
+              "RangeName": "21-30",
+              "Percentage": 11.362
+            },
+            {
+              "RangeName": "31-40",
+              "Percentage": 14.75
+            },
+            {
+              "RangeName": "41-50",
+              "Percentage": 10.85
+            },
+            {
+              "RangeName": "51-60",
+              "Percentage": 12.417
+            },
+            {
+              "RangeName": "61-70",
+              "Percentage": 7.186
+            },
+            {
+              "RangeName": "71-80",
+              "Percentage": 0.471
+            },
+            {
+              "RangeName": "81-90",
+              "Percentage": 0
+            },
+            {
+              "RangeName": "91-100",
+              "Percentage": 0
+            },
+            {
+              "RangeName": "GT-100",
+              "Percentage": 0
+            }
+          ]
+        }
+      ],
+      "workflow": {
+        "status": "InProgress",
+        "role": "auditor"
+      },
+      "state": {
+        "visible": true,
+        "enabled": true
+      }
+    },
+    {
+      "id": "policiesContent",
+      "blockTitle": "Company policies and procedures",
+      "questions": [
+        {
+          "title": "PERSONAL APPEARANCE",
+          "page": "policies/personalAppearance.html",
+          "type": "content",
+          "invisible": true,
+          "dependency": {
+            "visibility": {
+              "event": "techgroomedchange",
+              "value": "No"
+            }
+          }
+        },
+        {
+          "title": "SMOKING",
+          "page": "policies/smoking.html",
+          "type": "content",
+          "invisible": true,
+          "dependency": {
+            "visibility": {
+              "event": "tobaccochange",
+              "value": "No"
+            }
+          }
+        },
+        {
+          "title": "Vehicle Safety and Usage Policy",
+          "page": "policies/driverLicense.html",
+          "type": "content",
+          "invisible": true,
+          "dependency": {
+            "visibility": {
+              "event": "driverlicensechange",
+              "value": "Yes"
+            }
+          }
+        },
+        {
+          "title": "Company Cell Phone",
+          "page": "policies/cellPhone.html",
+          "type": "content",
+          "invisible": true,
+          "dependency": {
+            "visibility": {
+              "event": "cellphonechange",
+              "value": "Yes"
+            }
+          }
+        },
+        {
+          "title": "Defensive Driving Guidelines",
+          "page": "policies/drivingGuidelines.html",
+          "type": "content",
+          "invisible": true,
+          "dependency": {
+            "visibility": {
+              "event": "radarchange",
+              "value": "No"
+            }
+          }
+        },
+        {
+          "title": "Defensive Driving Guidelines",
+          "page": "policies/speeding.html",
+          "type": "content",
+          "invisible": true,
+          "dependency": {
+            "visibility": {
+              "event": "speedingchange",
+              "value": "Yes"
+            }
+          }
+        }
+      ],
+      "workflow": {
+        "status": "ManagerCorrectiveAction",
+        "user": "manager"
+      },
+      "state": {
+        "visible": true,
+        "enabled": true
+      }
+    },
+    {
+      "id": "correctiveAction",
+      "blockTitle": "Manager Corrective Actions",
+      "questions": [
+        {
+          "type": "long-txt",
+          "text": "Truck"
+        },
+        {
+          "type": "long-txt",
+          "text": "Tools"
+        },
+        {
+          "type": "long-txt",
+          "text": "Uniform"
+        },
+        {
+          "type": "long-txt",
+          "text": "Technician"
+        }
+      ],
+      "workflow": {
+        "status": "ManagerCorrectiveAction",
+        "user": "manager"
+      },
+      "state": {
+        "visible": true,
+        "enabled": true
+      }
+    },
+    {
+      "id": "techSigns",
+      "blockTitle": "Technician Sign Off",
+      "questions": [
+        {
+          "type": "label",
+          "text": "Technician’s name",
+          "dependency": {
+            "field": {
+              "event": "techchange",
+              "resource": "tech",
+              "dataText": "Name",
+              "dataValue": "EmplCode"
+            }
+          },
+          "value": "Anthony Dinardo"
+        },
+        {
+          "type": "txt",
+          "text": "Date",
+          "inputType": "Date"
+        },
+        {
+          "text": "I have reviewed and understand the company cellphone / tablet policy.",
+          "type": "radio",
+          "options": [ { "text": "Confirm" } ],
+          "invisible": true,
+          "dependency": {
+            "visibility": {
+              "event": "cellphonechange",
+              "value": "Yes"
+            }
+          }
+        },
+        {
+          "text": "I have reviewed and understand the inventory information.",
+          "type": "radio",
+          "options": [ { "text": "Confirm" } ]
+        },
+        {
+          "text": "I have reviewed and understand the tobacco usage policy.",
+          "type": "radio",
+          "options": [ { "text": "Confirm" } ],
+          "invisible": true,
+          "dependency": {
+            "visibility": {
+              "event": "tobaccochange",
+              "value": "No"
+            }
+          }
+        },
+        {
+          "text": "I have reviewed and understand the dress code policy",
+          "type": "radio",
+          "options": [ { "text": "Confirm" } ],
+          "invisible": true,
+          "dependency": {
+            "visibility": {
+              "event": "techgroomedchange",
+              "value": "No"
+            }
+          }
+        },
+        {
+          "text": "I have reviewed and understand manager's corrective actions.",
+          "type": "radio",
+          "options": [ { "text": "Confirm" } ]
+        }
+      ],
+      "workflow": {
+        "status": "TechSingOff",
+        "user": "tech"
+      },
+      "state": {
+        "visible": true,
+        "enabled": true
+      }
+    },
+    {
+      "id": "mgrsignoff",
+      "blockTitle": "Manager Sign Off",
+      "questions": [
+        {
+          "text": "Manager Name",
+          "type": "label",
+          "dependency": { "value": { "event": "managerchange" } },
+          "value": "BOBBY RUTLEDGE (RUTBOB)"
+        },
+        {
+          "type": "txt",
+          "text": "Date",
+          "inputType": "Date"
+        },
+        {
+          "text": "I have reviewed the document with the technician",
+          "type": "radio",
+          "options": [ { "text": "Confirm" } ]
+        }
+      ],
+      "workflow": {
+        "status": "ManagerSingOff",
+        "user": "manager"
+      },
+      "state": {
+        "visible": true,
+        "enabled": true
+      }
+    },
+    {
+      "id": "fleetmgrsignoff",
+      "blockTitle": "Fleet Manager Sign Off",
+      "questions": [
+        {
+          "text": "Fleet Manager Name",
+          "type": "label",
+          "dependency": { "value": { "event": "fleetmanagerchange" } },
+          "value": "Keith McClanahan (MCCKEI)"
+        },
+        {
+          "type": "txt",
+          "text": "Date",
+          "inputType": "Date"
+        },
+        {
+          "text": "I have reviewed the document",
+          "type": "radio",
+          "options": [ { "text": "Confirm" } ]
+        }
+      ],
+      "workflow": {
+        "status": "FleetManagerSingOff",
+        "user": "fleetmgr"
+      },
+      "state": {
+        "visible": true,
+        "enabled": true
+      }
+    },
+    {
+      "id": "accountantsignoff",
+      "blockTitle": "Accountant Sign Off",
+      "questions": [
+        {
+          "text": "Accountant Name",
+          "type": "label",
+          "dependency": { "value": { "event": "accountantchange" } },
+          "value": "MIKE JONES (MJONES)"
+        },
+        {
+          "type": "txt",
+          "text": "Date",
+          "inputType": "Date"
+        },
+        {
+          "text": "Inventory correction have been made",
+          "type": "radio",
+          "options": [ { "text": "Confirm" } ]
+        },
+        {
+          "text": "I have reviewed the document",
+          "type": "radio",
+          "options": [ { "text": "Confirm" } ]
+        }
+      ],
+      "workflow": {
+        "status": "AccountantSingOff",
+        "user": "accountant"
+      },
+      "state": {
+        "visible": true,
+        "enabled": true
+      }
+    },
+    {
+      "id": "fleetmgrfinalsignoff",
+      "blockTitle": "Fleet Manager Sign Off",
+      "questions": [
+        {
+          "text": "Fleet Manager Name",
+          "type": "label",
+          "dependency": { "value": { "event": "fleetmanagerchange" } },
+          "value": "Keith McClanahan (MCCKEI)"
+        },
+        {
+          "type": "txt",
+          "text": "Date",
+          "inputType": "Date"
+        },
+        {
+          "text": "I have reviewed the document",
+          "type": "radio",
+          "options": [ { "text": "Confirm" } ]
+        }
+      ],
+      "workflow": {
+        "status": "FleetManagerFinalSingOff",
+        "user": "fleetmgr"
+      },
+      "state": {
+        "visible": true,
+        "enabled": true
+      }
+    }
+  ],
+  "Id": 24,
+  "Auditor": "HARSTA",
+  "Subject": "1243",
+  "Category": null,
+  "Manager": "BOBBY RUTLEDGE (RUTBOB)",
+  "FleetManager": "Keith McClanahan (MCCKEI)",
+  "AccountantManager": "MIKE JONES (MJONES)",
+  "ScheduledDate": "2017-07-21T02:00:00",
+  "Status": 1,
+  "OriginalTemplateId": 1,
+  "Requested": "2017-07-21T07:01:46.3964019",
+  "RequestedBy": "COOSTE"
+}
