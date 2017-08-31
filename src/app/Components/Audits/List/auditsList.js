@@ -68,6 +68,6 @@
 AuditsListViewController.$inject = ['$filter', 'rest', 'datasource'];
 
 angular.module('app').component('auditsList', {
-    templateUrl: 'components/audits/list/list.html',
+    templateUrl: 'html/list.html',
     controller: AuditsListViewController
 });

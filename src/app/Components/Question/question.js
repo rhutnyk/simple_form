@@ -38,7 +38,7 @@
         }
     }
 
-    var init = function () {
+    ctrl.$onInit = function () {
        
         if (!ctrl.question.value && ctrl.question.default) {
             if (ctrl.question.default.storage) {
@@ -58,13 +58,13 @@
         //ctrl.registerListener($ctrl.question.dependency, $ctrl.question)
     }
 
-    init();
+    //init();
 }
 
 QuestionViewController.$inject = ['$element', '$attrs', '$timeout', 'observer', 'datasource', 'templateHelper', 'storage'];
 
 angular.module('app').component('questionView', {
-    templateUrl: 'components/question/question.html',
+    templateUrl: 'html/question.html',
     controller: QuestionViewController,
     bindings: {
         question: '=',

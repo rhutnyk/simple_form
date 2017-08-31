@@ -34,7 +34,7 @@
 TableViewController.$inject = ['observer', 'storage', 'templateHelper', 'stringResources'];
 
 angular.module('app').component('tableView', {
-    templateUrl: 'components/table/table.html',
+    templateUrl: 'html/table.html',
     controller: TableViewController,
     bindings: {
         table: '='

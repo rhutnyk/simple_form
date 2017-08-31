@@ -1,4 +1,4 @@
-﻿function FormViewController($state, $stateParams, $filter, $timeout, observer, identityProvider, storage, stringResources, workflow, restAudit, eventListener, datasource) {
+﻿function FormViewController($state, $stateParams, $filter, $http, $timeout, observer, storage, stringResources, restAudit, eventListener, datasource) {
     var ctrl = this;
 
     var provider = restAudit;
@@ -71,42 +71,23 @@
 
     var getChecklist = function (id) {
         ctrl.loading = true;
-        provider.get({ id: id }, function (response) {
-
-            ctrl.data = response.FormJson;
-            ctrl.title = response.Subject;
-            ctrl.status = workflow.getStatus(response.Status).Name;
-            ctrl.info = response;
-
-            ctrl.manager = response.Manager;
-            ctrl.accountant = response.AccountantManager;
-            ctrl.fleetManager = response.FleetManager;
-            ctrl.category = response.Category;
-
-            if (ctrl.status === stringResources.statusNew) {
-                $timeout(function () { ctrl.onchange("audittypechange", ctrl.category, stringResources.category) }, 3000);
-            }
-
-            angular.forEach(ctrl.autoCompleteSetup, function (callback) {
-                callback();
+        $http({
+            //url: "/api/Checklist/Template",
+            url: "../Temp/sample.json",
+            method: "GET",
+            params: { 'id': id }
+        }).then(function (response) {
+            //ctrl.data = response.data.Data;
+            //ctrl.title = response.data.Title;
+            ctrl.data = response.data;
+            ctrl.title = "Simple Form - SAMPLE";
+        },
+            function () {
+                alert("Checklist loading failed.");
+            }).finally(
+            function () {
+                ctrl.loading = false;
             });
-
-            initCommonStorage(response);
-
-            angular.forEach(ctrl.data, function (block) {
-                initFormDataStorage(block.questions);
-            })
-            ctrl.readonly = true;
-            angular.forEach(ctrl.data, function (block) {
-                block.state = workflow.get(block.workflow, response.Status);
-                if (block.workflow)
-                    ctrl.readonly &= !block.state.enabled;
-            })
-                        
-
-        }).$promise.finally(function () {
-            ctrl.loading = false;
-        });
     }
 
     ctrl.onchange = function (eventId, newValue, parameterName) {
@@ -118,16 +99,10 @@
 
     var init = function () {
         ctrl.brandAuditId = $stateParams.id;
-        ctrl.currentUser = identityProvider.user();
 
         eventListener.listen('imageUploaded', function () {
             ctrl.save();
         })
-
-        if (!ctrl.brandAuditId) {
-            alert("Invalid request data: Brand Audit # is missed.");
-            return;
-        }
 
         storage.set(stringResources.brandAuditId, ctrl.brandAuditId);
         getChecklist(ctrl.brandAuditId);                
@@ -184,9 +159,9 @@
     init();
 }
 
-FormViewController.$inject = ['$state', '$stateParams', '$filter', '$timeout', 'observer', 'identityProvider', 'storage', 'stringResources', 'workflow', 'restAudit', 'eventListener', 'datasource'];
+FormViewController.$inject = ['$state', '$stateParams', '$filter', '$http', '$timeout', 'observer', 'storage', 'stringResources', 'restAudit', 'eventListener', 'datasource'];
 
 angular.module('app').component('formView', {
-    templateUrl: 'components/audits/form/form.html',
+    templateUrl: 'html/form.html',
     controller: FormViewController
 });

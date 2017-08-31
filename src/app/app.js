@@ -18,12 +18,12 @@ app.config(['$locationProvider', '$stateProvider', '$urlRouterProvider', functio
         })
 
         .state('audit.list', {
-            url: '/?filter',
+            url: '/list?filter',
             component: 'auditsList',
         })
 
         .state('audit.conduct', {
-            url: '/audit/conduct?id',
+            url: '/?id',
             component: 'formView',
         })
 
@@ -50,41 +50,6 @@ app.config(['$locationProvider', '$stateProvider', '$urlRouterProvider', functio
                 listPage: function () { return 'schedule.list' }
             }
         })
-
-        .state('template', {
-            template: '<div ui-view></div>',
-            controller: function () { },
-        })
-
-        .state('template.list', {
-            url: '/templates/list',
-            component: 'templatesView',
-            resolve: {
-                resource: function () { return 'templates' },
-                editPage: function () { return 'template.edit' },
-                params: function () { return { activeOnly: false } }
-            }
-        })
-
-        .state('template.edit', {
-            url: '/template/edit?id',
-            component: 'templateEdit',
-            resolve: {
-                resource: function () { return 'templates' },
-                listPage: function () { return 'template.list' }
-            }
-        })
-
-        .state('reports', {
-            url: '/reports',
-            component: 'reportsView',
-        })
-
-        .state('queue', {
-            url: '/queue',
-            component: 'queueList',
-        });
-
 
 }]);
 
@@ -428,44 +393,44 @@ app.service('templateHelper', function () {
         var tmpl;
         switch (itemType) {
             case 'check':
-                tmpl = 'templates/tmpl-chk.html';
+                tmpl = '/tmpl-chk.html';
                 break;
             case 'radio':
-                tmpl = 'templates/tmpl-radio.html';
+                tmpl = '/tmpl-radio.html';
                 break;
             case 'select':
-                tmpl = 'templates/tmpl-select.html';
+                tmpl = '/tmpl-select.html';
                 break;
             case 'content':
-                tmpl = 'templates/tmpl-content.html';
+                tmpl = '/tmpl-content.html';
                 break;
             case 'long-txt':
-                tmpl = 'templates/tmpl-txt-area.html';
+                tmpl = '/tmpl-txt-area.html';
                 break;
             case 'upload':
-                tmpl = 'templates/tmpl-upload.html';
+                tmpl = '/tmpl-upload.html';
                 break;
             case 'label':
-                tmpl = 'templates/tmpl-lbl.html';
+                tmpl = '/tmpl-lbl.html';
                 break;
             //app specific templates
             case 'tools-audit':
-                tmpl = 'templates/tmpl-tbl.html';
+                tmpl = '/tmpl-tbl.html';
                 break;
             case 'tools-notes':
-                tmpl = 'templates/tmpl-toolsnotes.html';
+                tmpl = '/tmpl-toolsnotes.html';
                 break;
             case 'outcome':
-                tmpl = 'templates/tmpl-outcome.html';
+                tmpl = '/tmpl-outcome.html';
                 break;
             case 'speeding':
-                tmpl = 'templates/tmpl-speeding.html';
+                tmpl = '/tmpl-speeding.html';
                 break;
             default:
-                tmpl = 'templates/tmpl-txt.html';
+                tmpl = '/tmpl-txt.html';
                 break;
         }
-        return tmpl;
+        return 'html' + tmpl;
     }
 
     return {

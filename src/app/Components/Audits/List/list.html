@@ -1,33 +1,8 @@
 ﻿<div>
 
-    <h1>Brand Audits History</h1>
+    <h1>List</h1>
 
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="col-sm-4">
-                <span class="text-muted">Status</span>
-                <select class="form-control" ng-model="$ctrl.filter.status" ng-change="$ctrl.filterData()"
-                        ng-options="option.Id as option.Name for option in $ctrl.statuses">
-                        <option value="">select...</option>
-                </select>
-            </div>
-            <div class="col-sm-4">
-                <span class="text-muted">Subject</span>
-                <select class="form-control" ng-model="$ctrl.filter.subject" ng-change="$ctrl.filterData()"
-                        ng-options="option.VehicleNumber as option.VehicleNumber for option in $ctrl.subjects">
-                    <option value="">select...</option>
-                </select>
-            </div>
-            <div class="col-sm-4">
-                <span class="text-muted">Auditor</span>
-                <select class="form-control" ng-model="$ctrl.filter.auditor" ng-change="$ctrl.filterData()"
-                        ng-options="option.EmplCode as option.Name for option in $ctrl.auditors">
-                    <option value="">select...</option>
-                </select>
-            </div>
-        </div>
-    </div>
-
+    
     <table class="table table-striped">
         <tr>
             <th>#</th>

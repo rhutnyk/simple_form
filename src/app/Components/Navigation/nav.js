@@ -1,16 +1,16 @@
-﻿function navController(identityProvider) {
+﻿function navController() {
     var ctrl = this;
     
     var init = function () {
-        ctrl.user = identityProvider.user().emplCode;
+        
     }
 
     init();
 }
 
-navController.$inject = ['identityProvider'];
+navController.$inject = [];
 
 angular.module('app').component('navView', {
-    templateUrl: 'components/navigation/nav.html',
+    templateUrl: 'html/nav.html',
     controller: navController
 });

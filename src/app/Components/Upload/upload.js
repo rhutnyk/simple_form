@@ -74,7 +74,7 @@
 UploadViewController.$inject = ['$scope', '$element', '$attrs', 'fileRest', '$filter', 'observer', 'storage', 'stringResources', 'eventListener'];
 
 angular.module('app').component('uploadView', {
-    templateUrl: 'components/upload/upload.html',
+    templateUrl: 'html/upload.html',
     controller: UploadViewController,
     bindings: {
         question: '=',

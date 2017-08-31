@@ -11,7 +11,7 @@
 comfirmController.$inject = [];
 
 angular.module('app').component('confirm', {
-    templateUrl: 'components/confirmation/confirm.html',
+    templateUrl: 'html/confirm.html',
     controller: comfirmController,
     bindings: {
         text: '@',

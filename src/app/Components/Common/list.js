@@ -1,4 +1,4 @@
-﻿function ListViewController($filter, rest, workflow, datasource) {
+﻿function ListViewController($filter, rest, datasource) {
     var ctrl = this;
 
     ctrl.data = {};
@@ -47,7 +47,7 @@
     }
 
     ctrl.getStatus = function (id) {
-        return workflow.getStatus(id);
+        return '';
     }
 
     ctrl.delete = function (id) {
@@ -60,4 +60,4 @@
     init();
 }
 
-ListViewController.$inject = ['$filter', 'rest', 'workflow', 'datasource'];
+ListViewController.$inject = ['$filter', 'rest', 'datasource'];

@@ -18,7 +18,7 @@ module.exports = function (grunt) {
                 livereload: true,
             },
             scripts: {
-                files: ['src/app/*.js', 'src/app/*/*.js', 'src/app/*.js', 'src/app/*/*.js' ],
+                files: ['src/app/*.js', 'src/app/**/*.js' ],
                 tasks: ['concat:dev'],
             },
             // css: {
@@ -26,8 +26,12 @@ module.exports = function (grunt) {
             //     tasks: ['sass:main', 'concat:dev']
             // },
             html: {
-                files: ['src/*.html', 'src/app/components/*/*.htlm', 'src/app/components/*/*/*.htlm'],
+                files: ['src/*.html'],
                 tasks: ['htmlbuild:dev']
+            },
+            htmlmin: {
+                files: ['src/app/**/*.html', 'src/templates/*.html'],
+                tasks: ['htmlmin:dev']
             },
             images: {
                 files: ['src/images/*.{png,jpg,gif}'],
@@ -42,7 +46,7 @@ module.exports = function (grunt) {
                 jshintrc: '.jshintrc',
             },
             files: {
-                src: ['src/app/*.js', 'src/app/*/*.js', 'src/app/*.js', 'src/app/*/*.js']
+                src: ['src/app/*.js', 'src/app/**/*.js']
             }
         },
 
@@ -54,16 +58,15 @@ module.exports = function (grunt) {
             dev: {
                 files: {
                     '<%= tgt %>/css/app.css': ['node_modules/bootstrap/dist/css/bootstrap.min.css', 'src/css/styles.css'],
-                    '<%= tgt %>/js/libraries.js': ['node_modules/jquery/dist/jquery.min.js', 'node_modules/bootstrap/dist/js/bootstrap.min.js'],
-                    '<%= tgt %>/js/angular.min.js': ['node_modules/angular/angular.min.js', 'node_modules/angular-resource/angular-resource.min.js', 'node_modules/angular-route/angular-route.min.js'],
-                    '<%= tgt %>/js/ng-app.js': ['src/app/*.js', 'src/app/*/*.js', 'src/app/*.js', 'src/app/*/*.js'],
+                    '<%= tgt %>/js/libraries.js': ['node_modules/jquery/dist/jquery.min.js', 'node_modules/popper.js/dist/popper.min.js', 'node_modules/bootstrap/dist/js/bootstrap.min.js'],
+                    '<%= tgt %>/js/angular.min.js': ['node_modules/angular/angular.min.js', 'node_modules/angular-resource/angular-resource.min.js', 'node_modules/@uirouter/angularjs/release/angular-ui-router.min.js'],
+                    '<%= tgt %>/js/ng-app.js': ['src/app/*.js', 'src/app/**/*.js'],
                 }
             },
             prod: {
                 files: {
-                    '<%= tgt %>/js/libraries.js': ['src/js/jquery-1.12.4.min.js', 'src/js/vendors/*.js'],
-                    '<%= tgt %>/js/angular.min.js': ['node_modules/angular/angular.min.js', 'node_modules/angular-resource/angular-resource.min.js', 'node_modules/angular-route/angular-route.min.js', 'node_modules/ng-sweet-alert/ng-sweet-alert.js', 'node_modules/angular-contenteditable/angular-contenteditable.js'],
-                    //'<%= tgt %>/js/cordova.js': ['src/js/vendors/ionic/js/ionic.bundle.js', 'src/js/vendors/ngCordova/dist/ng-cordova.js']
+                    '<%= tgt %>/js/libraries.js': ['node_modules/jquery/dist/jquery.min.js', 'node_modules/popper.js/dist/popper.min.js', 'node_modules/bootstrap/dist/js/bootstrap.min.js'],
+                    '<%= tgt %>/js/angular.min.js': ['node_modules/angular/angular.min.js', 'node_modules/angular-resource/angular-resource.min.js', 'node_modules/@uirouter/angularjs/release/angular-ui-router.min.js'],
                 }
             }
         },
@@ -101,12 +104,7 @@ module.exports = function (grunt) {
         uglify: {
             prod: {
                 files: {
-                    '<%= tgt %>/js/ng-app.min.js': ['src/app/*.js', 'src/app/infrastructure/prod.js'],
-                }
-            },
-            stage: {
-                files: {
-                    '<%= tgt %>/js/ng-app.min.js': ['src/app/*.js', 'src/app/infrastructure/stage.js'],
+                    '<%= tgt %>/js/ng-app.min.js': ['src/app/*.js', 'src/app/**/*.js'],
                 }
             }
         },
@@ -164,15 +162,29 @@ module.exports = function (grunt) {
             }
         },
 
-        htmlmin: {                                 // Task
-            dist: {                                  // Target
+        
+        htmlmin: {
+            dev: {
+                files: [{
+                    expand: true,
+                    cwd: 'src/',
+                    src: ['**/*.html'],
+                    dest: '<%= tgt %>/html',
+                    flatten: true
+                }]
+            },
+            prod: {
                 options: {                             // Target options
-                    //removeComments: true,
-                    collapseWhitespace: true
+                    removeComments: true,
+                    collapseWhitespace: true,
                 },
-                files: {                               // Dictionary of files
-                    'dist/index.html': 'index.html'     // 'destination': 'source'
-                }
+                files: [{
+                    expand: true,
+                    cwd: 'src/',
+                    src: ['*/*.html'],
+                    dest: '<%= tgt %>/html',
+                    flatten: true
+                }]
             }
         },
 
@@ -221,7 +233,7 @@ module.exports = function (grunt) {
     grunt.registerTask('cleanup', ['clean']);
         
     //builds
-    grunt.registerTask('default', ['clean', 'concat:dev', 'htmlbuild:dev', 'imagemin:main', 'connect:dev', 'watchfiles']);
+    grunt.registerTask('default', ['clean', 'concat:dev', 'htmlbuild:dev', 'htmlmin:dev', 'imagemin:main', 'connect:dev', 'watchfiles']);
 
     //possible targets:
     //dev
